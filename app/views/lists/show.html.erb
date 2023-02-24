@@ -25,5 +25,32 @@
   </div>
 
 
+  <div class="d-flex flex-row my-5">
+    <div class="card" style="width: 30rem;">
+      <h2>Reviews:</h2>
+      <ul class="list-group list-group-flush">
+        <% @reviews.sort.reverse!.each do |review| %>
+        <div>
+          <li class="list-group-item"><% review.rating.times do %>
+            <i class="fa-solid fa-star" style="color: #FEDE01"></i>
+            <% end %> <p class="small">less than <%= ((Time.now - review.created_at)/60).to_i %> minutes ago</p>
+            <p><i class="fa-solid fa-quote-right"></i> <%= review.comment %></p>
+          </li>
+        </div>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="card align-self-start ms-5" style="width: 20rem;">
+      <%= simple_form_for [@list, @review] do |f| %>
+        <%= f.input :comment, as: :text %>
+        <%= f.input :rating, collection: (1..5).to_a, label: "Rate your experience", input_html: {data: {controller: "star-rating"}} %>
+        <%= f.button :submit, class: "btn btn-success" %>
+      <% end %>
+    </div>
+  </div>
+
+
+
 
 </div>
